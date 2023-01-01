@@ -1,9 +1,8 @@
-package gaur.himanshu.movieapp.ui_layer
+package gaur.himanshu.movieapp.ui_layer.list.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -13,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import gaur.himanshu.movieapp.model.Movie
+import gaur.himanshu.movieapp.navigation.MovieNavigationItem
 
 @Composable
-fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
+fun MovieListScreen(navController: NavController,viewModel: MovieViewModel = hiltViewModel()) {
 
     val result = viewModel.movieList.value
 
@@ -36,7 +37,9 @@ fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
     result.data?.let {
         LazyColumn {
             items(result.data) {
-                MovieItem(it)
+                MovieItem(it){
+                    navController.navigate(MovieNavigationItem.MovieDetails.route+"/$it")
+                }
             }
         }
     }
@@ -44,12 +47,15 @@ fun MovieListScreen(viewModel: MovieViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun MovieItem(it: Movie) {
+fun MovieItem(it: Movie, onClick: (String) -> Unit) {
     AsyncImage(
         model = "https://image.tmdb.org/t/p/w500/${it.poster_path}", contentDescription = null,
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp)
-            .padding(vertical = 4.dp), contentScale = ContentScale.Crop
+            .height(450.dp)
+            .padding(vertical = 4.dp)
+            .clickable {
+                onClick.invoke(it.id.toString())
+            }, contentScale = ContentScale.FillBounds
     )
 }

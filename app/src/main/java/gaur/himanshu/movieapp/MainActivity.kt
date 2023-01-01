@@ -10,9 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import gaur.himanshu.movieapp.navigation.MovieNavigation
 import gaur.himanshu.movieapp.ui.theme.MovieAppTheme
-import gaur.himanshu.movieapp.ui_layer.MovieListScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MovieListScreen()
+                    val navController = rememberNavController()
+                    MovieNavigation(navController)
                 }
             }
         }

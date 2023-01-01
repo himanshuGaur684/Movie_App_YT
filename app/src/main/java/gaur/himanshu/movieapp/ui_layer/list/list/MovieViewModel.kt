@@ -1,4 +1,4 @@
-package gaur.himanshu.movieapp.ui_layer
+package gaur.himanshu.movieapp.ui_layer.list.list
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
